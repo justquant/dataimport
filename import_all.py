@@ -38,6 +38,8 @@ for code in stocks:
         if currentDate < end:
             end = currentDate
         history_data = tusharelib.get_history_data_au(code, start.strftime('%Y-%m-%d'), end.strftime('%Y-%m-%d'))
+        history_data['code'] = code
+        history_data['date'] = history_data.index.strftime('%Y-%m-%d')
         db.history_data.insert(json.loads(history_data.to_json(orient='records')))
         start = end
 
