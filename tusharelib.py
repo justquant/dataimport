@@ -27,10 +27,16 @@ class TushareLib:
             end = "%d-%d-%d" % (year + 1, month, day)
 
         hist_data = ts.get_h_data(code, start, end, autype, index, retry_count, pause)
+        hist_data['code'] = code
+        hist_data['date'] = hist_data.index.strftime('%Y-%m-%d')
         return hist_data
 
+    #NOTE: The data returned from this API is not correct
     def get_history_data(self, code, start, end, ktype='D', retry_count=3, pause=0):
-        return ts.get_hist_data(code, start, end, ktype, retry_count, pause)
+        df = ts.get_hist_data(code, start, end, ktype, retry_count, pause)
+        df['date'] = df.index
+        df['code'] = code
+        return df
 
     def get_today_all(self):
         return ts.get_today_all()
